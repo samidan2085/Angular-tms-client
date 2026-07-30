@@ -1,31 +1,85 @@
-<div class="dashboard">
-<h1>Welcome, {{ studentName() }}</h1>
-<p>Credits Earned: {{ earnedCredits() }}</p>
-<p>Graduation Status: {{ graduationStatus() }}</p>
-<button (click)="registerForClass()">
-Register for a Class (+3 credits)
-</button>
+<div class="max-w-6xl mx-auto p-6 space-y-8 text-slate-800">
+
+  <!-- Dashboard Section -->
+  <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 transition-all">
+    <div class="space-y-2">
+      <h1 class="text-2xl md:text-3xl font-bold tracking-tight text-slate-900">
+        Welcome back, <span class="text-indigo-600">{{ studentName() }}</span> 👋
+      </h1>
+      <div class="flex flex-wrap items-center gap-3 text-sm text-slate-600">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 font-medium text-slate-700">
+          <svg class="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0112 20.055a11.952 11.952 0 01-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+          </svg>
+          Credits Earned: <strong class="text-slate-900">{{ earnedCredits() }}</strong>
+        </span>
+
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 font-medium border border-emerald-200/60">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          Graduation Status: {{ graduationStatus() }}
+        </span>
+      </div>
+    </div>
+
+    <button 
+      (click)="registerForClass()"
+      class="inline-flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white font-semibold px-5 py-3 rounded-xl shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 shrink-0">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+      </svg>
+      Register for a Class (+3 credits)
+    </button>
+  </section>
+
+  <!-- Course Catalog Header -->
+  <div>
+    <h2 class="text-xl font-bold text-slate-900 tracking-tight">Course Catalog</h2>
+    <p class="text-sm text-slate-500">Explore and enroll in available courses for this semester.</p>
+  </div>
+
+  <!-- Resource State Handling -->
+  @if (coursesResource.isLoading()) {
+    <div class="flex flex-col items-center justify-center py-16 px-4 bg-slate-50 rounded-2xl border border-dashed border-slate-200">
+      <div class="w-10 h-10 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mb-3"></div>
+      <p class="text-sm font-medium text-slate-600">Fetching courses from the server...</p>
+    </div>
+  } @else if (coursesResource.error()) {
+    <div class="flex items-start gap-3 p-4 rounded-xl bg-red-50 border border-red-200 text-red-800">
+      <svg class="w-5 h-5 text-red-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+      </svg>
+      <div>
+        <h3 class="text-sm font-semibold">Could not load courses</h3>
+        <p class="text-sm text-red-700 mt-0.5">Make sure your .NET API is running and reachable.</p>
+      </div>
+    </div>
+  } @else {
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      @for (course of coursesResource.value()!; track course.id) {
+        <tms-course-card [course]="course" (enrollClicked)="handleEnroll($event)" />
+      } @empty {
+        <div class="col-span-full py-12 text-center bg-slate-50 rounded-2xl border border-slate-200 text-slate-500">
+          <p class="text-base font-medium">No courses are available this term.</p>
+          <p class="text-xs text-slate-400 mt-1">Check back later or contact your advisor.</p>
+        </div>
+      }
+    </div>
+  }
+  <!-- Floating / Bottom Selection Hint -->
+  @if (selectedCourse(); as picked) {
+    <aside 
+      class="fixed bottom-6 right-6 z-50 flex items-center gap-3 bg-slate-900 text-white px-5 py-3.5 rounded-2xl shadow-xl border border-slate-800 animate-in fade-in slide-in-from-bottom-4 duration-300" 
+      role="status">
+      <span class="flex h-2.5 w-2.5 relative">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+      </span>
+      <p class="text-sm font-medium">
+        Last enrollment request: <strong class="text-indigo-300">{{ picked.title }}</strong> 
+        <span class="text-slate-400 text-xs ml-1">({{ picked.code }})</span>
+      </p>
+    </aside>
+  }
+
 </div>
-
-<h2>Course Catalog</h2>
-
-@if (availableCourses().length === 0){
-    <div class="empty-state">
-        <p>No courses are available this term. Check back during registration.
-         </p>
-    </div>
-} @else {
-    <div class="grid">
-        @for (course of availableCourses(); track course.id){
-            <tms-course-card [course]="course" (enrollClicked)="handleEnroll($event)"/>
-        } @empty {
-            <p>No results match your search.</p>
-        }
-    </div>
-} 
-
-@if (selectedCourse(); as picked) {
-    <p class="selection-hint" role="status">
-        Last enrollment request: <Strong>{{ picked.title }}</Strong>({{ picked.code}})
-    </p>
-}

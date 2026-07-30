@@ -8,5 +8,9 @@ import("./features/student-dashboard/student-dashboard.component").then(
 ),
 },
 { path: "", redirectTo: "dashboard", pathMatch: "full" },
-
+{
+path: 'enroll',
+loadComponent: () => import("./features/enrollment-form/enrollment-form")
+.then(m => m.EnrollmentFormComponent)
+}
 ];
