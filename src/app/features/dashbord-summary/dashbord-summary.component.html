@@ -1,0 +1,38 @@
+<div class="max-w-2xl mx-auto m-8 p-6 bg-white border border-slate-200 rounded-xl shadow-md space-y-4">
+  <h2 class="text-xl font-bold text-slate-800 border-b pb-2">Dashboard Summary</h2>
+  @if (store.isLoading()) {
+    <p class="text-slate-500">Loading records...</p>
+  } @else {
+    <!-- Pending Line & Approve Button -->
+    <div class="flex items-center justify-between p-3 bg-amber-50 rounded-lg border border-amber-200">
+      <span class="text-lg font-medium text-amber-900">
+        {{ store.pendingCount() }} enrollments are pending
+      </span>
+      <button 
+        (click)="onApprove()"
+        [disabled]="store.pendingCount() === 0"
+        class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 disabled:bg-slate-300 text-white font-semibold rounded-md transition shadow-sm"
+      >
+        Approve
+      </button>
+    </div>
+
+    <!-- Approved Line & Reject Button -->
+    <div class="flex items-center justify-between p-3 bg-emerald-50 rounded-lg border border-emerald-200">
+      <span class="text-lg font-medium text-emerald-900">
+        {{ store.approvedCount() }} enrollments are Approved
+      </span>
+      <button 
+        (click)="onReject()"
+        [disabled]="store.approvedCount() === 0"
+        class="px-4 py-2 bg-rose-600 hover:bg-rose-700 disabled:bg-slate-300 text-white font-semibold rounded-md transition shadow-sm"
+      >
+        Reject
+      </button>
+    </div>
+  }
+
+  @if (store.error()) {
+    <p class="text-sm text-red-600">{{ store.error() }}</p>
+  }
+</div>

@@ -3,14 +3,15 @@ import { rxResource } from "@angular/core/rxjs-interop";
 import { CourseCardComponent } from "../../ui/course-card/course-card";
 import { Course } from "../../models/course.model";
 import { CourseService } from "../../services/course.service";
+import { JsonPipe } from "@angular/common";
 
 @Component({
   selector: "app-student-dashboard",
   standalone: true,
-  imports: [CourseCardComponent],
+  imports: [CourseCardComponent, JsonPipe],
   templateUrl: "./student-dashboard.component.html",
   styleUrl: "./student-dashboard.component.scss",
-})
+}) 
 export class StudentDashboardComponent {
   private api = inject(CourseService);
 

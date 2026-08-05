@@ -9,8 +9,8 @@ import { Course, CourseDetail, PagedResponse } from "../models/course.model";
 export class CourseService {
 // inject(HttpClient) requests Angular's HTTP client the same pattern as inject(FormBuilder)
 private http = inject(HttpClient);
-private baseUrl = "https://localhost:5178/api/courses";
-getAll(page=1, pageSize=50) {
+private baseUrl = "http://localhost:5178/api/v2/courses";
+getAll(page=1, pageSize=3) {
 // This URL is GET /api/courses → map items[] (M6 catalogue envelope). Never accept a bare root [...].
 // Switch to map((p) => p.data) if your base URL is GET /api/v2/courses; paging often nests under meta on that envelope (Step 1).
 return this.http
@@ -18,7 +18,7 @@ return this.http
 params: { page: page.toString(), pageSize: pageSize.toString()
 },
 })
-.pipe(map((p) => p.items));
+.pipe(map((p) => p.data));
 }
 getById(id: string) {
 return this.http.get<CourseDetail>(`${this.baseUrl}/${id}`);

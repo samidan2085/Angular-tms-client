@@ -13,7 +13,7 @@ enrollmentCount: number;
 /** Envelope for `GET /api/courses` — TMS API contract list shape (`Pag
 edResponse<T>`). */
 export interface PagedResponse<T> {
-items: T[];
+data: T[];
 totalCount: number;
 page: number;
 pageSize: number;
