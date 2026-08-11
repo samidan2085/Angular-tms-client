@@ -1,7 +1,18 @@
+<!-- Renders instantly on any connection speed -->
 <div class="dashboard-header">
 <h1>Instructor Command Center</h1>
-<p>Pending: {{ store.pendingCount() }}</p>
+<div class="kpi-row">
+<div class="kpi-card">
+<span class="kpi-value">{{ store.entities().length }}</span>
+<span class="kpi-label">Total Enrollments</span>
 </div>
+<div class="kpi-card pending">
+<span class="kpi-value">{{ store.pendingCount() }}</span>
+<span class="kpi-label">Pending Approval</span>
+</div>
+</div>
+</div>
+<!-- DEFERRED UI: The chart code lives in a separate .js chunk file -->
 <div class="chart-section">
 @defer (on viewport; prefetch on idle(500)) {
 <tms-analytics-chart [data]="store.entities()" />

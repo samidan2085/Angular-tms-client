@@ -1,0 +1,29 @@
+<div class="chart-container">
+  <div class="chart-header">
+    <h3>Enrollment Analytics</h3>
+    <span class="total-badge">Total Records: {{ data().length }}</span>
+  </div>
+
+  <div class="chart-body">
+    <!-- Approved Bar Group -->
+    <div class="bar-group">
+      <span class="bar-value">{{ approvedCount() }}</span>
+      <div class="bar approved" [style.height.px]="approvedHeight()"></div>
+      <span class="bar-label">Approved</span>
+    </div>
+
+    <!-- Pending Bar Group -->
+    <div class="bar-group">
+      <span class="bar-value">{{ pendingCount() }}</span>
+      <div class="bar pending" [style.height.px]="pendingHeight()"></div>
+      <span class="bar-label">Pending</span>
+    </div>
+
+    <!-- Rejected Bar Group -->
+    <div class="bar-group">
+      <span class="bar-value">{{ rejectedCount() }}</span>
+      <div class="bar rejected" [style.height.px]="rejectedHeight()"></div>
+      <span class="bar-label">Rejected</span>
+    </div>
+  </div>
+</div>

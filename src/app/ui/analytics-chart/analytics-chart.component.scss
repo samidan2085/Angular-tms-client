@@ -1,0 +1,70 @@
+.chart-container {
+  padding: 1.5rem;
+  border-radius: 12px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+
+  .chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+
+    h3 {
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #0f172a;
+    }
+
+    .total-badge {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: #64748b;
+      background: #f1f5f9;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+    }
+  }
+
+  .chart-body {
+    display: flex;
+    gap: 3rem;
+    align-items: flex-end;
+    height: 200px;
+    padding: 1rem 0;
+    border-bottom: 2px solid #e2e8f0;
+  }
+
+  .bar-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80px;
+
+    .bar-value {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #334155;
+      margin-bottom: 0.35rem;
+    }
+
+    .bar {
+      width: 100%;
+      border-radius: 6px 6px 0 0;
+      transition: height 0.3s ease;
+
+      &.approved { background: #10b981; }
+      &.pending  { background: #f59e0b; }
+      &.rejected { background: #ef4444; }
+    }
+
+    .bar-label {
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #475569;
+    }
+  }
+}

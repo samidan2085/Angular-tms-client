@@ -20,4 +20,16 @@ export const routes: Routes = [
         (m) => m.DashboardSummaryComponent
       ),
   },
+  {
+path: 'dashboard1',
+loadComponent: () =>
+import('./features/instructor-dashboard/instructor-dashboard.component')
+.then(m => m.InstructorDashboardComponent)
+},
+{
+path: 'enrollments',
+loadComponent: () =>
+import('./features/enrollment-list/enrollment-list.component')
+.then(m => m.EnrollmentListComponent)
+},
 ];

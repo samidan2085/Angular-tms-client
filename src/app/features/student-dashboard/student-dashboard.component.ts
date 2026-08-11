@@ -8,7 +8,7 @@ import { JsonPipe } from "@angular/common";
 @Component({
   selector: "app-student-dashboard",
   standalone: true,
-  imports: [CourseCardComponent, JsonPipe],
+  imports: [CourseCardComponent],
   templateUrl: "./student-dashboard.component.html",
   styleUrl: "./student-dashboard.component.scss",
 }) 
