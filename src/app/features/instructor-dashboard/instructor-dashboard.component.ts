@@ -10,8 +10,9 @@ styleUrl: './instructor-dashboard.component.scss' //check at the last
 // pages of this file
 })
 export class InstructorDashboardComponent implements OnInit {
-store = inject(EnrollmentStore);
+ store = inject(EnrollmentStore);
 ngOnInit() {
 this.store.loadEnrollments();
+this.store.listenForLiveUpdates();
 }
 }

@@ -1,6 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { EnrollmentStore } from '../../store/enrollment.store';
-
 @Component({
   selector: 'tms-dashboard-summary',
   standalone: true,
