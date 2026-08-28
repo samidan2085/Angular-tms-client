@@ -1,0 +1,157 @@
+<div class="course-container">
+
+  <!-- HEADER -->
+
+  <div class="page-header">
+
+    <div>
+      <h1>Admin Course Management</h1>
+
+      <p>
+        Manage institutional courses and system access
+      </p>
+    </div>
+
+    <button
+      type="button"
+      class="add-button">
+
+      + Add New Course
+
+    </button>
+
+  </div>
+
+
+  <!-- LOADING -->
+
+  <div
+    *ngIf="isLoading"
+    class="loading-container">
+
+    <div class="spinner"></div>
+
+    <p>
+      Loading courses...
+    </p>
+
+  </div>
+
+
+  <!-- ERROR -->
+
+  <div
+    *ngIf="!isLoading && errorMessage"
+    class="error-container">
+
+    <h3>
+      Unable to load courses
+    </h3>
+
+    <p>
+      {{ errorMessage }}
+    </p>
+
+    <button
+      type="button"
+      (click)="loadCourses()">
+
+      Try Again
+
+    </button>
+
+  </div>
+
+
+  <!-- COURSES -->
+
+  <div
+    *ngIf="
+      !isLoading &&
+      !errorMessage
+    "
+    class="courses-section">
+
+    <!-- NO COURSES -->
+
+    <div
+      *ngIf="courses.length === 0"
+      class="empty-container">
+
+      <h3>
+        No Courses Found
+      </h3>
+
+      <p>
+        There are currently no courses available.
+      </p>
+
+    </div>
+
+
+    <!-- COURSE TABLE -->
+
+    <table
+      *ngIf="courses.length > 0">
+
+      <thead>
+
+        <tr>
+
+          <th>ID</th>
+
+          <th>Code</th>
+
+          <th>Title</th>
+
+          <th>Maximum Capacity</th>
+
+          <th>Action</th>
+
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        <tr
+          *ngFor="let course of courses">
+
+          <td>
+            {{ course.id }}
+          </td>
+
+          <td>
+            {{ course.code }}
+          </td>
+
+          <td>
+            {{ course.title }}
+          </td>
+
+          <td>
+            {{ course.maxCapacity }}
+          </td>
+
+          <td>
+
+            <button
+              type="button"
+              class="delete-button"
+              (click)="deleteCourse(course.id)">
+
+              Delete
+
+            </button>
+
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

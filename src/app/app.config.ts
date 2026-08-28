@@ -4,16 +4,26 @@ import { provideHttpClient, withInterceptors, withXsrfConfiguration } from '@ang
 import { routes } from './app.routes';
 import { credentialsInterceptor } from './interceptors/credentials.interceptor';
 import { errorInterceptor } from './interceptors/error.interceptor';
+import { jwtInterceptor } from './interceptors/jwt.interceptor';
+import {
+  authInterceptor
+} from './interceptors/auth.interceptor';
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZonelessChangeDetection(),
     provideRouter(routes, withComponentInputBinding()),
-  provideHttpClient(
-withInterceptors([credentialsInterceptor,errorInterceptor]),
-withXsrfConfiguration({
-cookieName: 'XSRF-TOKEN', // Cookie name set by .NETserver
-headerName: 'X-XSRF-TOKEN', // Header expected by .NETserver
-})
-)
+    provideHttpClient(
+      withInterceptors([
+        credentialsInterceptor,
+        errorInterceptor,
+        jwtInterceptor,
+        authInterceptor
+      ]),
+      withXsrfConfiguration({
+        cookieName: 'XSRF-TOKEN', // Cookie name set by .NETserver
+        headerName: 'X-XSRF-TOKEN', // Header expected by .NETserver
+      }),
+    ),
   ],
 };

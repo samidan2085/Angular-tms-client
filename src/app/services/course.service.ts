@@ -1,55 +1,75 @@
-import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import {
+  Injectable,
+  inject
+} from '@angular/core';
 
 import {
-  Course,
-  CourseDetail,
-  PagedResponse
+  HttpClient,
+  HttpParams
+} from '@angular/common/http';
+
+import {
+  Observable
+} from 'rxjs';
+
+import {
+  Course
 } from '../models/course.model';
 
-import { environment } from '../../environments/environment';
+export interface CourseResponse {
+
+  data: Course[];
+
+  page?: number;
+
+  pageSize?: number;
+
+  totalCount?: number;
+
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class CourseService {
 
-  // Angular HTTP client
   private http = inject(HttpClient);
 
-  // API base URL
-  private readonly base = `${environment.apiUrl}/courses`;
+  // ⚠️ CHANGE PORT TO YOUR .NET API PORT
+  private apiUrl =
+    'http://localhost:5178/api/v2/courses';
 
-  // GET all courses
-  getAll(page = 1, pageSize = 3) {
 
-    return this.http
-      .get<PagedResponse<Course>>(this.base, {
-        params: {
-          page: page.toString(),
-          pageSize: pageSize.toString()
-        }
-      })
-      .pipe(
-        map((p) => p.data)
-      );
-  }
+  getAll(
+    page: number = 1,
+    pageSize: number = 100
+  ): Observable<CourseResponse> {
 
-  // GET course by ID
-  getById(id: string) {
+    const params =
+      new HttpParams()
+        .set('page', page)
+        .set('pageSize', pageSize);
 
-    return this.http.get<CourseDetail>(
-      `${this.base}/${id}`
+    console.log(
+      'REQUESTING COURSES:',
+      this.apiUrl
+    );
+
+    return this.http.get<CourseResponse>(
+      this.apiUrl,
+      {
+        params
+      }
     );
   }
 
-  // DELETE course
-  delete(id: number): Observable<void> {
+
+  delete(
+    id: number
+  ): Observable<void> {
 
     return this.http.delete<void>(
-      `${this.base}/${id}`
+      `${this.apiUrl}/${id}`
     );
   }
 }

@@ -1,4 +1,8 @@
 import { Routes } from '@angular/router';
+import { AdminCourseListComponent } from './features/admin-course-list/admin-course-list.component';
+import { roleGuard } from './guards/role.guard';
+import { LoginComponent } from './features/auth/login/login.component';
+
 export const routes: Routes = [
   {
     path: 'dashboard',
@@ -13,6 +17,13 @@ export const routes: Routes = [
       import('./features/enrollment-form/enrollment-form').then((m) => m.EnrollmentFormComponent),
   },
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+  
+ // Login page
+  {
+    path: 'login',
+    component: LoginComponent
+  },
+  
  {
     path: 'dashboard-summary',
     loadComponent: () =>
@@ -37,5 +48,18 @@ path: 'grade-submission',
 loadComponent: () =>
 import('./features/grade-submission/grade-submission.component')
 .then(m => m.GradeSubmissionComponent)
+},
+ {
+  path: 'admin',
+  children: [
+
+    {
+      path: 'courses',
+      loadComponent: () =>
+        import('./features/admin-course-list/admin-course-list.component')
+          .then(m => m.AdminCourseListComponent)
+    }
+
+  ]
 }
 ];
